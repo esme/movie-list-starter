@@ -7,7 +7,7 @@ const Add = (props) => {
       >
       <input type="search" name="addInput" value={props.addInput}
         onChange={props.onAddChange} />
-      <input type="submit" name="addSubmit" value="Add" />
+      <input type="submit" name="addSubmit" value="Add" className=""/>
     </form>
   );
 }
