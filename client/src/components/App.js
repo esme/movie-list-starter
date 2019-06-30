@@ -46,18 +46,34 @@ class App extends React.Component {
   }
 
   getAllMovieData() {
-    axios.get(`https://api.themoviedb.org/3/movie/popular?page=1&language=en-US&api_key=${API_KEY}`)
+    axios.get('/api/movie')
       .then(({data}) => {
-        // console.log(data.results)
-        const newData = data.results.map(el => {
+        const newData = data.map(el => {
           return {...el, watched : false}
         })
-        console.log(newData)
         this.setState({
           movies: newData
-        })
+        })        
       })
       .catch(err => console.log(err))
+    // axios.get(`https://api.themoviedb.org/3/movie/popular?page=1&language=en-US&api_key=${API_KEY}`)
+    //   .then(({data}) => {
+    //     // console.log(data.results)
+    //     const newData = data.results.map(el => {
+    //       return {...el, watched : false}
+    //     })
+    //     console.log(newData)
+    //     this.setState({
+      //       movies: newData
+      //     })
+    //   })
+  }
+
+  getOneMovieData() {
+    axios.get(`https://api.themoviedb.org/3/search/keyword?api_key=${api_key}&query=${query}&page=1`)
+      .then((data) => {
+        console.log(data)
+      })
   }
 
   onSearchChange(e) {
@@ -84,7 +100,15 @@ class App extends React.Component {
   }
 
   onAddSubmit(e) {
+    console.log(e.target[0].value)
     e.preventDefault();
+    if(e.target[0].value) {
+      axios.post('/api/movie', {
+        title: e.target[0].value
+      })
+      .then(res => console.log(res))
+      .catch(err => console.log('add submit', err))
+    }
     // https://api.themoviedb.org/3/search/movie?api_key=<<api_key>>&language=en-US&query=asdsad&page=1
     // let newMovies = [...this.state.movies, {
     //   title: this.state.addInput,
